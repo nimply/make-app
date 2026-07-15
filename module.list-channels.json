@@ -1,0 +1,30 @@
+{
+    "name": "listChannels",
+    "label": "List Channels",
+    "description": "Returns the social channels connected to the workspace.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/channels",
+        "method": "GET",
+        "response": {
+            "iterate": "{{body}}",
+            "output": "{{item}}",
+            "limit": "{{parameters.limit}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "limit",
+            "type": "number",
+            "label": "Limit",
+            "default": 50
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Channel ID" },
+        { "name": "name", "type": "text", "label": "Name" },
+        { "name": "type", "type": "text", "label": "Platform" },
+        { "name": "isConnected", "type": "boolean", "label": "Connected" },
+        { "name": "tokenStatus", "type": "text", "label": "Token Status" }
+    ]
+}

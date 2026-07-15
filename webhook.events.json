@@ -1,0 +1,45 @@
+{
+    "name": "nimply-events",
+    "label": "Nimply Events",
+    "type": "dedicated",
+    "connection": "nimply-oauth",
+    "attach": {
+        "url": "/v1/webhooks",
+        "method": "POST",
+        "body": {
+            "name": "Make: {{join(parameters.events, ', ')}}",
+            "url": "{{webhook.url}}",
+            "events": "{{parameters.events}}"
+        },
+        "response": {
+            "data": {
+                "externalHookId": "{{body.id}}"
+            }
+        }
+    },
+    "detach": {
+        "url": "/v1/webhooks/{{webhook.externalHookId}}",
+        "method": "DELETE"
+    },
+    "parameters": [
+        {
+            "name": "events",
+            "type": "select",
+            "label": "Events",
+            "required": true,
+            "multiple": true,
+            "options": [
+                { "label": "Post Published", "value": "post.published" },
+                { "label": "Post Failed", "value": "post.failed" },
+                { "label": "Post Created", "value": "post.created" },
+                { "label": "Post Updated", "value": "post.updated" },
+                { "label": "Post Deleted", "value": "post.deleted" },
+                { "label": "Approval Requested", "value": "post.approval_requested" },
+                { "label": "Post Approved", "value": "post.approved" },
+                { "label": "Post Rejected", "value": "post.rejected" },
+                { "label": "Channel Connected", "value": "channel.connected" },
+                { "label": "Channel Disconnected", "value": "channel.disconnected" }
+            ]
+        }
+    ]
+}

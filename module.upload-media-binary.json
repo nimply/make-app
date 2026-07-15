@@ -1,0 +1,77 @@
+{
+    "name": "uploadMediaBinary",
+    "label": "Upload Media (Binary)",
+    "description": "Uploads binary data from a previous module (e.g. a downloaded file) via Nimply's presigned upload flow.",
+    "connection": "nimply-oauth",
+    "communication": [
+        {
+            "url": "/v1/media/uploads",
+            "method": "POST",
+            "body": {
+                "fileName": "{{parameters.fileName}}",
+                "contentType": "{{parameters.contentType}}",
+                "sizeBytes": "{{length(parameters.data)}}"
+            },
+            "response": {
+                "temp": {
+                    "mediaId": "{{body.mediaId}}",
+                    "uploadUrl": "{{body.uploadUrl}}"
+                }
+            }
+        },
+        {
+            "url": "{{temp.uploadUrl}}",
+            "method": "PUT",
+            "type": "binary",
+            "headers": {
+                "content-type": "{{parameters.contentType}}"
+            },
+            "body": "{{parameters.data}}",
+            "response": {
+                "temp": {
+                    "uploaded": true
+                }
+            }
+        },
+        {
+            "url": "/v1/media/uploads/{{temp.mediaId}}/complete",
+            "method": "POST",
+            "body": {
+                "sizeBytes": "{{length(parameters.data)}}"
+            },
+            "response": {
+                "output": "{{body}}"
+            }
+        }
+    ],
+    "parameters": [
+        {
+            "name": "data",
+            "type": "buffer",
+            "label": "Data",
+            "required": true,
+            "help": "Binary file data from a previous module (map the file's data field)."
+        },
+        {
+            "name": "fileName",
+            "type": "text",
+            "label": "File Name",
+            "required": true,
+            "help": "e.g. launch-video.mp4 — the extension helps typing."
+        },
+        {
+            "name": "contentType",
+            "type": "text",
+            "label": "Content Type",
+            "required": true,
+            "help": "MIME type of the file, e.g. image/png or video/mp4."
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Media ID" },
+        { "name": "name", "type": "text", "label": "Name" },
+        { "name": "type", "type": "text", "label": "Type" },
+        { "name": "url", "type": "url", "label": "Signed URL" },
+        { "name": "size", "type": "number", "label": "Size (bytes)" }
+    ]
+}

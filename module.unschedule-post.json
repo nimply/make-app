@@ -1,0 +1,29 @@
+{
+    "name": "unschedulePost",
+    "label": "Unschedule a Post",
+    "description": "Moves a scheduled post back to draft and clears its publish time.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/posts/{{parameters.postId}}/unschedule",
+        "method": "POST",
+        "response": {
+            "output": "{{body}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "postId",
+            "type": "text",
+            "label": "Post ID",
+            "required": true,
+            "help": "ID of the scheduled post to move back to draft (e.g. from Create a Post or Watch Events). Only scheduled posts can be unscheduled."
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Post ID" },
+        { "name": "channelId", "type": "text", "label": "Channel ID" },
+        { "name": "status", "type": "text", "label": "Status" },
+        { "name": "scheduledAt", "type": "date", "label": "Scheduled At" },
+        { "name": "createdAt", "type": "date", "label": "Created At" }
+    ]
+}

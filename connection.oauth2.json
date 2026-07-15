@@ -1,0 +1,72 @@
+{
+    "authorize": {
+        "url": "https://app.nimply.io/oauth/authorize",
+        "qs": {
+            "client_id": "{{common.clientId}}",
+            "redirect_uri": "{{oauth.redirectUri}}",
+            "response_type": "code",
+            "scope": "workspace:read channels:read posts:read posts:write posts:publish media:read media:write analytics:read webhooks:manage",
+            "state": "{{oauth.state}}",
+            "code_challenge": "{{oauth.codeChallenge}}",
+            "code_challenge_method": "S256"
+        },
+        "response": {
+            "temp": {
+                "code": "{{query.code}}"
+            }
+        }
+    },
+    "token": {
+        "url": "https://api.nimply.io/oauth/token",
+        "method": "POST",
+        "type": "json",
+        "body": {
+            "grant_type": "authorization_code",
+            "code": "{{temp.code}}",
+            "code_verifier": "{{oauth.codeVerifier}}",
+            "client_id": "{{common.clientId}}",
+            "redirect_uri": "{{oauth.redirectUri}}"
+        },
+        "response": {
+            "data": {
+                "accessToken": "{{body.access_token}}",
+                "refreshToken": "{{body.refresh_token}}",
+                "expires": "{{addSeconds(now, body.expires_in)}}"
+            }
+        }
+    },
+    "refresh": {
+        "condition": "{{data.expires < addMinutes(now, 5)}}",
+        "url": "https://api.nimply.io/oauth/token",
+        "method": "POST",
+        "type": "json",
+        "body": {
+            "grant_type": "refresh_token",
+            "refresh_token": "{{data.refreshToken}}",
+            "client_id": "{{common.clientId}}"
+        },
+        "response": {
+            "data": {
+                "accessToken": "{{body.access_token}}",
+                "refreshToken": "{{body.refresh_token}}",
+                "expires": "{{addSeconds(now, body.expires_in)}}"
+            }
+        }
+    },
+    "info": {
+        "url": "https://api.nimply.io/v1/workspace",
+        "headers": {
+            "authorization": "Bearer {{connection.accessToken}}"
+        },
+        "response": {
+            "uid": "{{body.id}}",
+            "metadata": {
+                "type": "text",
+                "value": "{{body.name}}"
+            }
+        }
+    },
+    "common": {
+        "clientId": "SET_AFTER_DYNAMIC_REGISTRATION"
+    }
+}

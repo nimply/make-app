@@ -1,0 +1,38 @@
+{
+    "name": "uploadMedia",
+    "label": "Upload Media from URL",
+    "description": "Imports an image/video from a public URL into the Nimply media library.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/media",
+        "method": "POST",
+        "body": {
+            "url": "{{parameters.url}}",
+            "name": "{{ifempty(parameters.name, undefined)}}"
+        },
+        "response": {
+            "output": "{{body}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "url",
+            "type": "url",
+            "label": "File URL",
+            "required": true,
+            "help": "Publicly reachable http(s) URL."
+        },
+        {
+            "name": "name",
+            "type": "text",
+            "label": "File Name"
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Media ID" },
+        { "name": "name", "type": "text", "label": "Name" },
+        { "name": "type", "type": "text", "label": "Type" },
+        { "name": "url", "type": "url", "label": "Signed URL" },
+        { "name": "size", "type": "number", "label": "Size (bytes)" }
+    ]
+}

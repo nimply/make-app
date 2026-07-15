@@ -1,0 +1,16 @@
+{
+    "name": "listChannelsRpc",
+    "label": "List Channels",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/channels",
+        "method": "GET",
+        "response": {
+            "iterate": "{{body}}",
+            "output": {
+                "label": "{{item.name}} ({{item.type}})",
+                "value": "{{item.id}}"
+            }
+        }
+    }
+}

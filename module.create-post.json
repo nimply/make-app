@@ -1,0 +1,80 @@
+{
+    "name": "createPost",
+    "label": "Create a Post",
+    "description": "Creates a post on one or more channels (draft, next free slot, publish now, or at a time).",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/posts",
+        "method": "POST",
+        "body": {
+            "channelIds": "{{parameters.channelIds}}",
+            "content": "{{parameters.content}}",
+            "title": "{{ifempty(parameters.title, undefined)}}",
+            "contentType": "{{parameters.contentType}}",
+            "mediaIds": "{{ifempty(parameters.mediaIds, undefined)}}",
+            "schedule": "{{ifempty(parameters.schedule, 'draft')}}"
+        },
+        "headers": {
+            "idempotency-key": "{{executionId}}"
+        },
+        "response": {
+            "output": "{{body[]}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "channelIds",
+            "type": "select",
+            "label": "Channels",
+            "required": true,
+            "multiple": true,
+            "options": "rpc://listChannelsRpc"
+        },
+        {
+            "name": "content",
+            "type": "text",
+            "label": "Content",
+            "required": false,
+            "multiline": true
+        },
+        {
+            "name": "title",
+            "type": "text",
+            "label": "Title",
+            "help": "Used by YouTube and Pinterest."
+        },
+        {
+            "name": "contentType",
+            "type": "select",
+            "label": "Content Type",
+            "default": "POST",
+            "options": [
+                { "label": "Post", "value": "POST" },
+                { "label": "Reel", "value": "REEL" },
+                { "label": "Story", "value": "STORY" },
+                { "label": "Video", "value": "VIDEO" }
+            ]
+        },
+        {
+            "name": "mediaIds",
+            "type": "array",
+            "label": "Media IDs",
+            "help": "IDs from the Upload Media module, in display order.",
+            "spec": { "type": "text" }
+        },
+        {
+            "name": "schedule",
+            "type": "text",
+            "label": "Schedule",
+            "default": "draft",
+            "help": "\"draft\", \"next_slot\", \"now\", or an ISO 8601 datetime like 2026-08-01T09:00:00Z."
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Post ID" },
+        { "name": "channelId", "type": "text", "label": "Channel ID" },
+        { "name": "status", "type": "text", "label": "Status" },
+        { "name": "scheduledAt", "type": "date", "label": "Scheduled At" },
+        { "name": "createdAt", "type": "date", "label": "Created At" }
+    ]
+}

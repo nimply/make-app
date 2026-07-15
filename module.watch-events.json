@@ -1,0 +1,36 @@
+{
+    "name": "watchEvents",
+    "label": "Watch Events",
+    "description": "Triggers instantly when the selected Nimply events occur (post published/failed, approvals, and more).",
+    "type": "instant_trigger",
+    "connection": "nimply-oauth",
+    "webhook": "nimply-events",
+    "communication": {
+        "response": {
+            "output": {
+                "eventId": "{{body.id}}",
+                "event": "{{body.type}}",
+                "occurredAt": "{{body.createdAt}}",
+                "workspaceId": "{{body.workspaceId}}",
+                "postId": "{{body.data.postId}}",
+                "channelId": "{{body.data.channelId}}",
+                "status": "{{body.data.status}}",
+                "postUrl": "{{body.data.postUrl}}",
+                "error": "{{body.data.error}}",
+                "comment": "{{body.data.comment}}"
+            }
+        }
+    },
+    "interface": [
+        { "name": "eventId", "type": "text", "label": "Event ID" },
+        { "name": "event", "type": "text", "label": "Event Type" },
+        { "name": "occurredAt", "type": "date", "label": "Occurred At" },
+        { "name": "workspaceId", "type": "text", "label": "Workspace ID" },
+        { "name": "postId", "type": "text", "label": "Post ID" },
+        { "name": "channelId", "type": "text", "label": "Channel ID" },
+        { "name": "status", "type": "text", "label": "Post Status" },
+        { "name": "postUrl", "type": "url", "label": "Published Post URL" },
+        { "name": "error", "type": "text", "label": "Error" },
+        { "name": "comment", "type": "text", "label": "Approval Comment" }
+    ]
+}
