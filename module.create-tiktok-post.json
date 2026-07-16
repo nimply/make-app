@@ -1,0 +1,114 @@
+{
+    "name": "createTikTokPost",
+    "label": "Create a TikTok Post",
+    "description": "Posts a video or photos to TikTok with privacy level, comment/Duet/Stitch settings, and commercial-content disclosure.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/posts/tiktok",
+        "method": "POST",
+        "body": {
+            "channelId": "{{parameters.channelId}}",
+            "mediaIds": "{{parameters.mediaIds}}",
+            "privacyLevel": "{{parameters.privacyLevel}}",
+            "title": "{{ifempty(parameters.title, undefined)}}",
+            "content": "{{ifempty(parameters.content, undefined)}}",
+            "allowComments": "{{parameters.allowComments}}",
+            "allowDuet": "{{parameters.allowDuet}}",
+            "allowStitch": "{{parameters.allowStitch}}",
+            "brandContent": "{{parameters.brandContent}}",
+            "brandOrganic": "{{parameters.brandOrganic}}",
+            "schedule": "{{ifempty(parameters.schedule, 'draft')}}"
+        },
+        "headers": {
+            "idempotency-key": "{{executionId}}"
+        },
+        "response": {
+            "output": "{{body}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "channelId",
+            "type": "select",
+            "label": "TikTok Channel",
+            "required": true,
+            "options": "rpc://listTikTokChannelsRpc"
+        },
+        {
+            "name": "mediaIds",
+            "type": "array",
+            "label": "Media IDs",
+            "required": true,
+            "help": "1 video or up to 35 photos, in display order. IDs from the Upload Media module.",
+            "spec": { "type": "text" }
+        },
+        {
+            "name": "privacyLevel",
+            "type": "select",
+            "label": "Privacy Level",
+            "required": true,
+            "options": "rpc://listTikTokPrivacyLevelsRpc",
+            "help": "Who can view the post. Only the levels the account allows are listed."
+        },
+        {
+            "name": "title",
+            "type": "text",
+            "label": "Title",
+            "help": "Post title (max 100 characters)."
+        },
+        {
+            "name": "content",
+            "type": "text",
+            "label": "Caption",
+            "multiline": true
+        },
+        {
+            "name": "allowComments",
+            "type": "boolean",
+            "label": "Allow Comments",
+            "default": false
+        },
+        {
+            "name": "allowDuet",
+            "type": "boolean",
+            "label": "Allow Duet",
+            "default": false,
+            "help": "Video posts only."
+        },
+        {
+            "name": "allowStitch",
+            "type": "boolean",
+            "label": "Allow Stitch",
+            "default": false,
+            "help": "Video posts only."
+        },
+        {
+            "name": "brandContent",
+            "type": "boolean",
+            "label": "Branded Content",
+            "default": false,
+            "help": "Disclose as branded content (paid partnership). Not allowed with Only Me privacy."
+        },
+        {
+            "name": "brandOrganic",
+            "type": "boolean",
+            "label": "Your Brand",
+            "default": false,
+            "help": "Disclose as promoting your own brand or business."
+        },
+        {
+            "name": "schedule",
+            "type": "text",
+            "label": "Schedule",
+            "default": "draft",
+            "help": "\"draft\", \"next_slot\", \"now\", or an ISO 8601 datetime like 2026-08-01T09:00:00Z."
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Post ID" },
+        { "name": "channelId", "type": "text", "label": "Channel ID" },
+        { "name": "status", "type": "text", "label": "Status" },
+        { "name": "scheduledAt", "type": "date", "label": "Scheduled At" },
+        { "name": "createdAt", "type": "date", "label": "Created At" }
+    ]
+}

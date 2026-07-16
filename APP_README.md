@@ -25,6 +25,12 @@ This app connects your Make scenarios to your Nimply workspace: fill your postin
 | Module | What it does |
 | --- | --- |
 | **Create a Post** | Creates a post on one or more channels — as a draft, into each channel's next free posting slot, published immediately, or scheduled at a specific time. Attach media via the upload modules. |
+| **Create a YouTube Video** | Uploads a video or Short to a YouTube channel with full video options: category, visibility, license, subscriber notification, embedding, and made-for-kids. |
+| **Create a TikTok Post** | Posts a video or photos to TikTok with privacy level (loaded from the account), comment/Duet/Stitch settings, and commercial-content disclosure. |
+| **Create a Pinterest Pin** | Creates a pin on a specific board (picked from a dropdown) with a destination link and alt text. |
+| **Create a LinkedIn Post** | Posts to a LinkedIn profile or company page with visibility control (public or connections only). |
+| **Update a Post** | Edits the content and/or title of a draft or scheduled post. |
+| **Schedule a Post** | Sets or changes when a draft or scheduled post will publish. |
 | **Unschedule a Post** | Moves a scheduled post back to draft and clears its publish time — it won't publish until scheduled again. |
 | **Upload Media from URL** | Imports a file from a public URL into your media library; returns a media ID for posts. |
 | **Upload Media (Binary)** | Uploads file data from a previous module (downloads, form uploads, generated files). |

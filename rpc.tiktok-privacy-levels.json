@@ -1,0 +1,16 @@
+{
+    "name": "listTikTokPrivacyLevelsRpc",
+    "label": "List TikTok Privacy Levels",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/channels/{{parameters.channelId}}/tiktok/creator-info",
+        "method": "GET",
+        "response": {
+            "iterate": "{{body.privacyLevelOptions}}",
+            "output": {
+                "label": "{{switch(item, 'PUBLIC_TO_EVERYONE', 'Public', 'MUTUAL_FOLLOW_FRIENDS', 'Friends', 'FOLLOWER_OF_CREATOR', 'Followers', 'SELF_ONLY', 'Only Me', item)}}",
+                "value": "{{item}}"
+            }
+        }
+    }
+}

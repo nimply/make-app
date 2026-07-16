@@ -1,0 +1,48 @@
+{
+    "name": "updatePost",
+    "label": "Update a Post",
+    "description": "Edits the content and/or title of a draft or scheduled post. Published posts cannot be edited.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/posts/{{parameters.postId}}",
+        "method": "PATCH",
+        "body": {
+            "content": "{{ifempty(parameters.content, undefined)}}",
+            "title": "{{ifempty(parameters.title, undefined)}}"
+        },
+        "response": {
+            "output": "{{body}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "postId",
+            "type": "text",
+            "label": "Post ID",
+            "required": true,
+            "help": "ID of the draft or scheduled post to edit."
+        },
+        {
+            "name": "content",
+            "type": "text",
+            "label": "Content",
+            "multiline": true,
+            "help": "New post text/caption. Leave empty to keep the current content."
+        },
+        {
+            "name": "title",
+            "type": "text",
+            "label": "Title",
+            "help": "New title (used by YouTube and Pinterest). Leave empty to keep the current title."
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Post ID" },
+        { "name": "channelId", "type": "text", "label": "Channel ID" },
+        { "name": "content", "type": "text", "label": "Content" },
+        { "name": "title", "type": "text", "label": "Title" },
+        { "name": "status", "type": "text", "label": "Status" },
+        { "name": "scheduledAt", "type": "date", "label": "Scheduled At" },
+        { "name": "createdAt", "type": "date", "label": "Created At" }
+    ]
+}

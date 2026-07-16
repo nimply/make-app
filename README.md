@@ -24,7 +24,16 @@ Make apps are authored in Make's web-based **Custom Apps builder** (they are not
 | `base.json` | App → Base |
 | `connection.oauth2.json` | Connections → nimply-oauth (type: OAuth 2 authorization code) |
 | `rpc.list-channels.json` | Remote Procedures → listChannelsRpc (powers the channel dropdown — create BEFORE the modules) |
+| `rpc.platform-channels.json` | Remote Procedures → listYouTubeChannelsRpc / listTikTokChannelsRpc / listPinterestChannelsRpc / listLinkedInChannelsRpc (one file, four RPCs — register each separately, BEFORE the platform modules) |
+| `rpc.pinterest-boards.json` | Remote Procedures → listPinterestBoardsRpc (board dropdown; reads the module's `channelId` parameter) |
+| `rpc.tiktok-privacy-levels.json` | Remote Procedures → listTikTokPrivacyLevelsRpc (privacy dropdown; reads the module's `channelId` parameter) |
 | `module.create-post.json` | Modules → Create a Post (action) |
+| `module.create-youtube-video.json` | Modules → Create a YouTube Video (action) |
+| `module.create-tiktok-post.json` | Modules → Create a TikTok Post (action) |
+| `module.create-pinterest-pin.json` | Modules → Create a Pinterest Pin (action) |
+| `module.create-linkedin-post.json` | Modules → Create a LinkedIn Post (action) |
+| `module.update-post.json` | Modules → Update a Post (action) |
+| `module.schedule-post.json` | Modules → Schedule a Post (action) |
 | `module.unschedule-post.json` | Modules → Unschedule a Post (action) |
 | `module.upload-media.json` | Modules → Upload Media from URL (action) |
 | `module.upload-media-binary.json` | Modules → Upload Media (Binary) (action) — 3-request presigned chain; test after import, the binary PUT (request 2, `type: "binary"`) is the part most sensitive to builder-version quirks |
@@ -38,9 +47,3 @@ Make apps are authored in Make's web-based **Custom Apps builder** (they are not
 - The connection uses **PKCE** (`code_challenge`/`code_verifier`) as required by Nimply's OAuth 2.1 server; Make's OAuth2 connection supports this via the `oauth2CodeChallenge` / IML `codeChallenge` helpers configured in `connection.oauth2.json`.
 - The **Watch Events** trigger registers a Nimply webhook (`POST /v1/webhooks`) on attach and deletes it on detach; the event payload envelope is `{id, type, createdAt, workspaceId, data}` and the module outputs `data` merged with `type`/`createdAt`.
 - Scopes requested: all (workspace/channels/posts/media/analytics read+write, webhooks:manage) — Make users pick one connection for all modules.
-
-## Contributing & license
-
-This repo is a public mirror of the app definitions — the canonical development happens in Nimply's internal monorepo, and releases are mirrored here. Bug reports and feature requests are welcome as [issues](../../issues).
-
-Licensed under the [MIT License](./LICENSE).

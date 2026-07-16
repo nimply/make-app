@@ -1,0 +1,146 @@
+{
+    "name": "createYouTubeVideo",
+    "label": "Create a YouTube Video",
+    "description": "Uploads a video or Short to a YouTube channel with full video options (category, visibility, license, and more).",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/posts/youtube",
+        "method": "POST",
+        "body": {
+            "channelId": "{{parameters.channelId}}",
+            "title": "{{parameters.title}}",
+            "mediaId": "{{parameters.mediaId}}",
+            "description": "{{ifempty(parameters.description, undefined)}}",
+            "videoType": "{{parameters.videoType}}",
+            "category": "{{parameters.category}}",
+            "visibility": "{{parameters.visibility}}",
+            "license": "{{parameters.license}}",
+            "notifySubscribers": "{{parameters.notifySubscribers}}",
+            "allowEmbedding": "{{parameters.allowEmbedding}}",
+            "madeForKids": "{{parameters.madeForKids}}",
+            "schedule": "{{ifempty(parameters.schedule, 'draft')}}"
+        },
+        "headers": {
+            "idempotency-key": "{{executionId}}"
+        },
+        "response": {
+            "output": "{{body}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "channelId",
+            "type": "select",
+            "label": "YouTube Channel",
+            "required": true,
+            "options": "rpc://listYouTubeChannelsRpc"
+        },
+        {
+            "name": "title",
+            "type": "text",
+            "label": "Title",
+            "required": true,
+            "help": "Video title (required by YouTube, max 100 characters)."
+        },
+        {
+            "name": "mediaId",
+            "type": "text",
+            "label": "Video Media ID",
+            "required": true,
+            "help": "ID of the video from the Upload Media module."
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "label": "Description",
+            "multiline": true
+        },
+        {
+            "name": "videoType",
+            "type": "select",
+            "label": "Video Type",
+            "default": "video",
+            "options": [
+                { "label": "Video", "value": "video" },
+                { "label": "Short", "value": "short" }
+            ]
+        },
+        {
+            "name": "category",
+            "type": "select",
+            "label": "Category",
+            "default": "22",
+            "options": [
+                { "label": "Autos & Vehicles", "value": "2" },
+                { "label": "Comedy", "value": "23" },
+                { "label": "Education", "value": "27" },
+                { "label": "Entertainment", "value": "24" },
+                { "label": "Film & Animation", "value": "1" },
+                { "label": "Gaming", "value": "20" },
+                { "label": "Howto & Style", "value": "26" },
+                { "label": "Music", "value": "10" },
+                { "label": "News & Politics", "value": "25" },
+                { "label": "People & Blogs", "value": "22" },
+                { "label": "Pets & Animals", "value": "15" },
+                { "label": "Science & Technology", "value": "28" },
+                { "label": "Sports", "value": "17" },
+                { "label": "Travel & Events", "value": "19" }
+            ]
+        },
+        {
+            "name": "visibility",
+            "type": "select",
+            "label": "Visibility",
+            "default": "public",
+            "options": [
+                { "label": "Public", "value": "public" },
+                { "label": "Unlisted", "value": "unlisted" },
+                { "label": "Private", "value": "private" }
+            ]
+        },
+        {
+            "name": "license",
+            "type": "select",
+            "label": "License",
+            "default": "youtube",
+            "options": [
+                { "label": "Standard YouTube License", "value": "youtube" },
+                { "label": "Creative Commons", "value": "creativeCommon" }
+            ]
+        },
+        {
+            "name": "notifySubscribers",
+            "type": "boolean",
+            "label": "Notify Subscribers",
+            "default": true
+        },
+        {
+            "name": "allowEmbedding",
+            "type": "boolean",
+            "label": "Allow Embedding",
+            "default": true
+        },
+        {
+            "name": "madeForKids",
+            "type": "boolean",
+            "label": "Made for Kids",
+            "default": false,
+            "help": "Self-declare the video as made for kids (COPPA)."
+        },
+        {
+            "name": "schedule",
+            "type": "text",
+            "label": "Schedule",
+            "default": "draft",
+            "help": "\"draft\", \"next_slot\", \"now\", or an ISO 8601 datetime like 2026-08-01T09:00:00Z."
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Post ID" },
+        { "name": "channelId", "type": "text", "label": "Channel ID" },
+        { "name": "title", "type": "text", "label": "Title" },
+        { "name": "status", "type": "text", "label": "Status" },
+        { "name": "scheduledAt", "type": "date", "label": "Scheduled At" },
+        { "name": "createdAt", "type": "date", "label": "Created At" }
+    ]
+}

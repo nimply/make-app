@@ -1,0 +1,39 @@
+{
+    "name": "schedulePost",
+    "label": "Schedule a Post",
+    "description": "Sets or changes when a draft or scheduled post will publish.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/posts/{{parameters.postId}}/schedule",
+        "method": "POST",
+        "body": {
+            "scheduledAt": "{{parameters.scheduledAt}}"
+        },
+        "response": {
+            "output": "{{body}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "postId",
+            "type": "text",
+            "label": "Post ID",
+            "required": true,
+            "help": "ID of the draft or scheduled post."
+        },
+        {
+            "name": "scheduledAt",
+            "type": "date",
+            "label": "Publish At",
+            "required": true,
+            "help": "When to publish (must be in the future)."
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Post ID" },
+        { "name": "channelId", "type": "text", "label": "Channel ID" },
+        { "name": "status", "type": "text", "label": "Status" },
+        { "name": "scheduledAt", "type": "date", "label": "Scheduled At" },
+        { "name": "createdAt", "type": "date", "label": "Created At" }
+    ]
+}

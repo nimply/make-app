@@ -1,0 +1,73 @@
+{
+    "name": "createLinkedInPost",
+    "label": "Create a LinkedIn Post",
+    "description": "Posts to a LinkedIn profile or company page with visibility control.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/posts/linkedin",
+        "method": "POST",
+        "body": {
+            "channelId": "{{parameters.channelId}}",
+            "content": "{{parameters.content}}",
+            "mediaIds": "{{ifempty(parameters.mediaIds, undefined)}}",
+            "visibility": "{{parameters.visibility}}",
+            "schedule": "{{ifempty(parameters.schedule, 'draft')}}"
+        },
+        "headers": {
+            "idempotency-key": "{{executionId}}"
+        },
+        "response": {
+            "output": "{{body}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "channelId",
+            "type": "select",
+            "label": "LinkedIn Channel",
+            "required": true,
+            "options": "rpc://listLinkedInChannelsRpc"
+        },
+        {
+            "name": "content",
+            "type": "text",
+            "label": "Content",
+            "required": true,
+            "multiline": true,
+            "help": "Post text (max 3000 characters)."
+        },
+        {
+            "name": "mediaIds",
+            "type": "array",
+            "label": "Media IDs",
+            "help": "Up to 20 images or 1 video, in display order. IDs from the Upload Media module.",
+            "spec": { "type": "text" }
+        },
+        {
+            "name": "visibility",
+            "type": "select",
+            "label": "Visibility",
+            "default": "PUBLIC",
+            "options": [
+                { "label": "Public", "value": "PUBLIC" },
+                { "label": "Connections Only", "value": "CONNECTIONS" }
+            ],
+            "help": "Connections Only works on personal profiles."
+        },
+        {
+            "name": "schedule",
+            "type": "text",
+            "label": "Schedule",
+            "default": "draft",
+            "help": "\"draft\", \"next_slot\", \"now\", or an ISO 8601 datetime like 2026-08-01T09:00:00Z."
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Post ID" },
+        { "name": "channelId", "type": "text", "label": "Channel ID" },
+        { "name": "content", "type": "text", "label": "Content" },
+        { "name": "status", "type": "text", "label": "Status" },
+        { "name": "scheduledAt", "type": "date", "label": "Scheduled At" },
+        { "name": "createdAt", "type": "date", "label": "Created At" }
+    ]
+}

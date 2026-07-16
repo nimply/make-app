@@ -1,0 +1,90 @@
+{
+    "name": "createPinterestPin",
+    "label": "Create a Pinterest Pin",
+    "description": "Creates a pin on a specific Pinterest board, with an optional destination link and alt text.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/posts/pinterest",
+        "method": "POST",
+        "body": {
+            "channelId": "{{parameters.channelId}}",
+            "boardId": "{{parameters.boardId}}",
+            "mediaIds": "{{parameters.mediaIds}}",
+            "title": "{{ifempty(parameters.title, undefined)}}",
+            "content": "{{ifempty(parameters.content, undefined)}}",
+            "link": "{{ifempty(parameters.link, undefined)}}",
+            "altText": "{{ifempty(parameters.altText, undefined)}}",
+            "schedule": "{{ifempty(parameters.schedule, 'draft')}}"
+        },
+        "headers": {
+            "idempotency-key": "{{executionId}}"
+        },
+        "response": {
+            "output": "{{body}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "channelId",
+            "type": "select",
+            "label": "Pinterest Channel",
+            "required": true,
+            "options": "rpc://listPinterestChannelsRpc"
+        },
+        {
+            "name": "boardId",
+            "type": "select",
+            "label": "Board",
+            "required": true,
+            "options": "rpc://listPinterestBoardsRpc",
+            "help": "Pick a channel first to load its boards."
+        },
+        {
+            "name": "mediaIds",
+            "type": "array",
+            "label": "Media IDs",
+            "required": true,
+            "help": "Up to 5 images (carousel) or 1 video, in display order. IDs from the Upload Media module.",
+            "spec": { "type": "text" }
+        },
+        {
+            "name": "title",
+            "type": "text",
+            "label": "Title",
+            "help": "Pin title (max 100 characters)."
+        },
+        {
+            "name": "content",
+            "type": "text",
+            "label": "Description",
+            "multiline": true
+        },
+        {
+            "name": "link",
+            "type": "text",
+            "label": "Destination Link",
+            "help": "URL the pin links to."
+        },
+        {
+            "name": "altText",
+            "type": "text",
+            "label": "Alt Text",
+            "help": "Alt text for accessibility (max 500 characters)."
+        },
+        {
+            "name": "schedule",
+            "type": "text",
+            "label": "Schedule",
+            "default": "draft",
+            "help": "\"draft\", \"next_slot\", \"now\", or an ISO 8601 datetime like 2026-08-01T09:00:00Z."
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Post ID" },
+        { "name": "channelId", "type": "text", "label": "Channel ID" },
+        { "name": "title", "type": "text", "label": "Title" },
+        { "name": "status", "type": "text", "label": "Status" },
+        { "name": "scheduledAt", "type": "date", "label": "Scheduled At" },
+        { "name": "createdAt", "type": "date", "label": "Created At" }
+    ]
+}

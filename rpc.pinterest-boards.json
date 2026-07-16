@@ -1,0 +1,16 @@
+{
+    "name": "listPinterestBoardsRpc",
+    "label": "List Pinterest Boards",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/channels/{{parameters.channelId}}/pinterest/boards",
+        "method": "GET",
+        "response": {
+            "iterate": "{{body}}",
+            "output": {
+                "label": "{{if(item.privacy = 'PUBLIC', item.name, item.name + ' (' + item.privacy + ')')}}",
+                "value": "{{item.id}}"
+            }
+        }
+    }
+}

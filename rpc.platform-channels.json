@@ -1,0 +1,79 @@
+{
+    "_comment": "Platform-filtered channel dropdowns for the platform-specific create modules. Register each RPC separately in Make.",
+    "listYouTubeChannelsRpc": {
+        "name": "listYouTubeChannelsRpc",
+        "label": "List YouTube Channels",
+        "connection": "nimply-oauth",
+        "communication": {
+            "url": "/v1/channels",
+            "method": "GET",
+            "response": {
+                "iterate": {
+                    "container": "{{body}}",
+                    "condition": "{{item.type = 'YOUTUBE'}}"
+                },
+                "output": {
+                    "label": "{{item.name}}",
+                    "value": "{{item.id}}"
+                }
+            }
+        }
+    },
+    "listTikTokChannelsRpc": {
+        "name": "listTikTokChannelsRpc",
+        "label": "List TikTok Channels",
+        "connection": "nimply-oauth",
+        "communication": {
+            "url": "/v1/channels",
+            "method": "GET",
+            "response": {
+                "iterate": {
+                    "container": "{{body}}",
+                    "condition": "{{contains('TIKTOK_BUSINESS TIKTOK_PERSONAL', item.type)}}"
+                },
+                "output": {
+                    "label": "{{item.name}} ({{item.type}})",
+                    "value": "{{item.id}}"
+                }
+            }
+        }
+    },
+    "listPinterestChannelsRpc": {
+        "name": "listPinterestChannelsRpc",
+        "label": "List Pinterest Channels",
+        "connection": "nimply-oauth",
+        "communication": {
+            "url": "/v1/channels",
+            "method": "GET",
+            "response": {
+                "iterate": {
+                    "container": "{{body}}",
+                    "condition": "{{item.type = 'PINTEREST'}}"
+                },
+                "output": {
+                    "label": "{{item.name}}",
+                    "value": "{{item.id}}"
+                }
+            }
+        }
+    },
+    "listLinkedInChannelsRpc": {
+        "name": "listLinkedInChannelsRpc",
+        "label": "List LinkedIn Channels",
+        "connection": "nimply-oauth",
+        "communication": {
+            "url": "/v1/channels",
+            "method": "GET",
+            "response": {
+                "iterate": {
+                    "container": "{{body}}",
+                    "condition": "{{contains('LINKEDIN_PROFILE LINKEDIN_PAGE', item.type)}}"
+                },
+                "output": {
+                    "label": "{{item.name}} ({{item.type}})",
+                    "value": "{{item.id}}"
+                }
+            }
+        }
+    }
+}
