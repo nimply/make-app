@@ -1,4 +1,4 @@
-# Nimply — Make (Integromat) App
+# Nimply - Make (Integromat) App
 
 Make apps are authored in Make's web-based **Custom Apps builder** (they are not deployable from a repo). This directory holds the JSON definitions to paste into the builder, so the app is version-controlled here and reproducible.
 
