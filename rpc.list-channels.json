@@ -6,7 +6,10 @@
         "url": "/v1/channels",
         "method": "GET",
         "response": {
-            "iterate": "{{body}}",
+            "iterate": {
+                "container": "{{body}}",
+                "condition": "{{item.capabilities.publish != false}}"
+            },
             "output": {
                 "label": "{{item.name}} ({{item.type}})",
                 "value": "{{item.id}}"
