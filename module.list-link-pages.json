@@ -1,0 +1,33 @@
+{
+    "name": "listLinkPages",
+    "label": "List Link Pages",
+    "description": "Returns the workspace's nimply.link pages with status and public URL.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/link-pages",
+        "method": "GET",
+        "response": {
+            "iterate": "{{body.data}}",
+            "output": "{{item}}",
+            "limit": "{{parameters.limit}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "limit",
+            "type": "number",
+            "label": "Limit",
+            "default": 25
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Page ID" },
+        { "name": "handle", "type": "text", "label": "Handle" },
+        { "name": "url", "type": "url", "label": "Public URL" },
+        { "name": "title", "type": "text", "label": "Title" },
+        { "name": "status", "type": "text", "label": "Status" },
+        { "name": "publishedVersion", "type": "number", "label": "Published Version" },
+        { "name": "publishedAt", "type": "date", "label": "Published At" },
+        { "name": "blocksCount", "type": "number", "label": "Blocks" }
+    ]
+}

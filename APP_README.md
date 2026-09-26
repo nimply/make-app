@@ -34,12 +34,15 @@ This app connects your Make scenarios to your Nimply workspace: fill your postin
 | **Unschedule a Post** | Moves a scheduled post back to draft and clears its publish time — it won't publish until scheduled again. |
 | **Upload Media from URL** | Imports a file from a public URL into your media library; returns a media ID for posts. |
 | **Upload Media (Binary)** | Uploads file data from a previous module (downloads, form uploads, generated files). |
+| **Add Link Block** | Adds a link button, text, product, coupon, countdown, FAQ or testimonial block to your nimply.link page (your link in bio). |
+| **Publish Link Page** | Publishes the page so the new blocks are live at nimply.link within about a minute. |
 
 ### Searches
 
 | Module | What it does |
 | --- | --- |
 | **List Channels** | Returns your connected social channels — useful for routers and filters. |
+| **List Link Pages** | Returns your nimply.link pages with status and public URL. |
 
 ## Scenario ideas
 
@@ -48,6 +51,7 @@ This app connects your Make scenarios to your Nimply workspace: fill your postin
 - **RSS autoposting**: new feed item → *Create a Post* into the next free slot on every channel.
 - **Client approvals**: *Watch Events (approval requested)* → email the client; their reply approves the post via Nimply.
 - **Reporting**: *Watch Events (post published)* → log the post and its URL to a spreadsheet.
+- **Latest video on your link page**: YouTube *Watch Videos* → *Add Link Block* (featured) → *Publish Link Page*.
 
 ## Notes
 

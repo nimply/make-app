@@ -38,6 +38,10 @@ Make apps are authored in Make's web-based **Custom Apps builder** (they are not
 | `module.upload-media.json` | Modules → Upload Media from URL (action) |
 | `module.upload-media-binary.json` | Modules → Upload Media (Binary) (action) — 3-request presigned chain; test after import, the binary PUT (request 2, `type: "binary"`) is the part most sensitive to builder-version quirks |
 | `module.list-channels.json` | Modules → List Channels (search) |
+| `rpc.list-link-pages.json` | Remote Procedures → listLinkPagesRpc (page dropdown for the link-page modules — create BEFORE them) |
+| `module.add-link-block.json` | Modules → Add Link Block (action) — for Link button fill Title/URL; other block types take key/value config, documented at developer.nimply.io/docs/link-pages |
+| `module.publish-link-page.json` | Modules → Publish Link Page (action) |
+| `module.list-link-pages.json` | Modules → List Link Pages (search) |
 | `module.watch-events.json` | Modules → Watch Events (instant trigger / webhook) |
 | `webhook.events.json` | Webhooks → nimply-events (paired with Watch Events) |
 | `APP_README.md` | App → Readme tab (user-facing, GitHub-Flavored Markdown) |
@@ -46,4 +50,4 @@ Make apps are authored in Make's web-based **Custom Apps builder** (they are not
 
 - The connection uses **PKCE** (`code_challenge`/`code_verifier`) as required by Nimply's OAuth 2.1 server; Make's OAuth2 connection supports this via the `oauth2CodeChallenge` / IML `codeChallenge` helpers configured in `connection.oauth2.json`.
 - The **Watch Events** trigger registers a Nimply webhook (`POST /v1/webhooks`) on attach and deletes it on detach; the event payload envelope is `{id, type, createdAt, workspaceId, data}` and the module outputs `data` merged with `type`/`createdAt`.
-- Scopes requested: all (workspace/channels/posts/media/analytics read+write, webhooks:manage) — Make users pick one connection for all modules.
+- Scopes requested: all (workspace/channels/posts/media/analytics read+write, webhooks:manage, links:read/links:write) — Make users pick one connection for all modules.

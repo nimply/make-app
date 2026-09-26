@@ -1,0 +1,26 @@
+{
+    "name": "publishLinkPage",
+    "label": "Publish Link Page",
+    "description": "Publishes the page draft so block changes go live at nimply.link within about a minute.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/link-pages/{{parameters.pageId}}/publish",
+        "method": "POST",
+        "response": {
+            "output": "{{body}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "pageId",
+            "type": "select",
+            "label": "Page",
+            "required": true,
+            "options": "rpc://listLinkPagesRpc"
+        }
+    ],
+    "interface": [
+        { "name": "publishedVersion", "type": "number", "label": "Published Version" },
+        { "name": "url", "type": "url", "label": "Public URL" }
+    ]
+}

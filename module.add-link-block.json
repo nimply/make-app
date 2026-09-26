@@ -1,0 +1,112 @@
+{
+    "name": "addLinkBlock",
+    "label": "Add Link Block",
+    "description": "Adds a block (link button, text, product, coupon, countdown, FAQ, …) to a nimply.link page. Publish with \"Publish Link Page\" to make it live.",
+    "connection": "nimply-oauth",
+    "communication": {
+        "url": "/v1/link-pages/{{parameters.pageId}}/blocks",
+        "method": "POST",
+        "body": {
+            "type": "{{parameters.blockType}}",
+            "position": "{{ifempty(parameters.position, undefined)}}",
+            "scheduledStartAt": "{{ifempty(parameters.scheduledStartAt, undefined)}}",
+            "scheduledEndAt": "{{ifempty(parameters.scheduledEndAt, undefined)}}",
+            "config": "{{if(parameters.blockType = 'LINK', merge(ifempty(parameters.config, {}), {title: parameters.title, url: parameters.url, subtitle: ifempty(parameters.subtitle, undefined), style: ifempty(parameters.style, undefined)}), ifempty(parameters.config, {}))}}"
+        },
+        "response": {
+            "output": "{{body}}"
+        }
+    },
+    "parameters": [
+        {
+            "name": "pageId",
+            "type": "select",
+            "label": "Page",
+            "required": true,
+            "options": "rpc://listLinkPagesRpc"
+        },
+        {
+            "name": "blockType",
+            "type": "select",
+            "label": "Block Type",
+            "required": true,
+            "default": "LINK",
+            "options": [
+                { "label": "Link button", "value": "LINK" },
+                { "label": "Text", "value": "TEXT" },
+                { "label": "Section title", "value": "SECTION" },
+                { "label": "Post card", "value": "POST_CARD" },
+                { "label": "Product", "value": "PRODUCT" },
+                { "label": "Coupon", "value": "COUPON" },
+                { "label": "Countdown", "value": "COUNTDOWN" },
+                { "label": "Notice bar", "value": "NOTICE_BAR" },
+                { "label": "FAQ", "value": "FAQ" },
+                { "label": "Testimonial", "value": "TESTIMONIAL" }
+            ]
+        },
+        {
+            "name": "title",
+            "type": "text",
+            "label": "Title",
+            "help": "Link button label (Link button only)."
+        },
+        {
+            "name": "url",
+            "type": "url",
+            "label": "URL",
+            "help": "Where the link button goes (Link button only)."
+        },
+        {
+            "name": "subtitle",
+            "type": "text",
+            "label": "Subtitle",
+            "help": "Small text under the title (Link button only)."
+        },
+        {
+            "name": "style",
+            "type": "select",
+            "label": "Style",
+            "help": "Link button style; Featured stands out at the top of the page.",
+            "options": [
+                { "label": "Solid", "value": "solid" },
+                { "label": "Outline", "value": "outline" },
+                { "label": "Card", "value": "card" },
+                { "label": "Featured", "value": "featured" }
+            ]
+        },
+        {
+            "name": "config",
+            "type": "collection",
+            "label": "Config (other block types)",
+            "help": "Block config for non-link types as key/value pairs, e.g. targetAt + label for a countdown. Every type is documented at https://developer.nimply.io/docs/link-pages.",
+            "spec": []
+        },
+        {
+            "name": "position",
+            "type": "number",
+            "label": "Position",
+            "help": "0-based position on the page; leave empty to append at the end. 1 is usually just under the social icons."
+        },
+        {
+            "name": "scheduledStartAt",
+            "type": "date",
+            "label": "Show From",
+            "help": "Only show the block from this time."
+        },
+        {
+            "name": "scheduledEndAt",
+            "type": "date",
+            "label": "Hide After",
+            "help": "Hide the block after this time (no republish needed)."
+        }
+    ],
+    "interface": [
+        { "name": "id", "type": "text", "label": "Block ID" },
+        { "name": "type", "type": "text", "label": "Type" },
+        { "name": "position", "type": "number", "label": "Position" },
+        { "name": "isActive", "type": "boolean", "label": "Active" },
+        { "name": "scheduledStartAt", "type": "date", "label": "Show From" },
+        { "name": "scheduledEndAt", "type": "date", "label": "Hide After" },
+        { "name": "createdAt", "type": "date", "label": "Created At" }
+    ]
+}

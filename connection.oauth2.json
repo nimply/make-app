@@ -5,7 +5,7 @@
             "client_id": "{{common.clientId}}",
             "redirect_uri": "{{oauth.redirectUri}}",
             "response_type": "code",
-            "scope": "workspace:read channels:read posts:read posts:write posts:publish media:read media:write analytics:read webhooks:manage",
+            "scope": "workspace:read channels:read posts:read posts:write posts:publish media:read media:write analytics:read webhooks:manage links:read links:write",
             "state": "{{oauth.state}}",
             "code_challenge": "{{oauth.codeChallenge}}",
             "code_challenge_method": "S256"
