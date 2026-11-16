@@ -13,6 +13,7 @@
             "description": "{{ifempty(parameters.description, undefined)}}",
             "videoType": "{{parameters.videoType}}",
             "category": "{{parameters.category}}",
+            "tags": "{{ifempty(parameters.tags, undefined)}}",
             "visibility": "{{parameters.visibility}}",
             "license": "{{parameters.license}}",
             "notifySubscribers": "{{parameters.notifySubscribers}}",
@@ -86,6 +87,13 @@
                 { "label": "Sports", "value": "17" },
                 { "label": "Travel & Events", "value": "19" }
             ]
+        },
+        {
+            "name": "tags",
+            "type": "array",
+            "label": "Tags",
+            "help": "Words people might search for (no # needed). YouTube allows 500 characters for all tags together.",
+            "spec": { "type": "text" }
         },
         {
             "name": "visibility",
